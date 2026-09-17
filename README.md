@@ -1,84 +1,79 @@
-<h1>Global Layoffs Data Cleaning (MySQL)</h1>
+# Global Layoffs Data Cleaning
 
-<h2>Description</h2>
-Objective: Clean and prepare a global layoffs dataset using MySQL to ensure data accuracy, consistency, and usability for analysis. 
-<br><br>
+A MySQL data-cleaning project that transforms a raw global layoffs dataset into a consistent, analysis-ready table for later exploration and visualization.
 
-Key Tasks:
+## Project Objective
 
-- <b>Removed duplicate records using window functions and Common Table Expressions (CTEs).</b>
-- <b>Standardized company names, locations, industries, and date formats.</b>
-- <b>Identified and resolved null, blank, and inconsistent values.</b>
-- <b>Validated dataset integrity and ensured consistency across records.</b>
-- <b>Produced a clean, analysis-ready database suitable for trend analysis and visualization.</b>
+Prepare the dataset for reliable analysis by removing duplicates, standardizing inconsistent values, resolving missing data where supported, and converting fields into appropriate formats.
 
-<b>Outcome:</b> Created a reliable dataset for analyzing worldwide layoffs across industries and regions during 2022–2023, supporting further business intelligence and data visualization initiatives.
+## Cleaning Workflow
 
+1. **Created a staging table** to preserve the raw source data.
+2. **Identified duplicate rows** with `ROW_NUMBER()` in a CTE.
+3. **Removed confirmed duplicates** while retaining one valid record.
+4. **Standardized text fields** including company, industry, country, and location values.
+5. **Handled blanks and nulls** without inventing unsupported values.
+6. **Converted the date column** into a proper SQL date type.
+7. **Removed helper columns** after completing validation.
+8. **Reviewed the cleaned result** for consistency and analysis readiness.
 
-<h2>Languages and Utilities Used</h2>
+## Skills Demonstrated
 
-- <b>MySQL, MySQL Workbench, SQL Window Functions, CTEs</b> 
-- <b>Data Cleaning and Transformation</b>
+**MySQL · MySQL Workbench · Data Cleaning · CTEs · Window Functions · String Functions · Date Conversion · Null Handling · Data Validation**
 
-<h2>Environments Used </h2>
+## Outcome
 
-- <b>Windows 10</b> (22H2)
+The final table provides a cleaner foundation for analyzing layoffs by company, industry, location, funding stage, and time period. This repository focuses on the preparation stage of the analytics workflow; the cleaned data is intended for a separate exploratory analysis or dashboard.
 
-<h2>Program walk-through:</h2>
+## SQL Walkthrough
 
-<p align="center">
+### Inspecting and Staging the Source Data
 
-<img src="https://imgur.com/BDNl1kq.png" height="50%" width="50%"/>
-<br />
-<br />
+![Reviewing the raw layoffs dataset](https://imgur.com/BDNl1kq.png)
 
-<img src="https://imgur.com/Dq12Tp5.png" height="50%" width="50%" />
-<br />
-<br />
+![Creating a staging copy of the layoffs table](https://imgur.com/Dq12Tp5.png)
 
-<img src="https://imgur.com/fz1aha2.png" height="50%" width="50%" />
-<br />
-<br />
+A staging table protects the original data while cleaning logic is developed and validated.
 
-<img src="https://imgur.com/u9urF6V.png" height="50%" width="50%" />
-<br />
-<br />
+### Finding and Removing Duplicates
 
-<img src="https://imgur.com/ekBihGl.png" height="50%" width="50%" />
-<br />
-<br />
+![Identifying duplicates with a row number window function](https://imgur.com/fz1aha2.png)
 
-<img src="https://imgur.com/ye12UGr.png" height="50%" width="50%" />
-<br />
-<br />
+![Reviewing duplicate records before deletion](https://imgur.com/u9urF6V.png)
 
-<img src="https://imgur.com/MycLCo2.png" height="50%" width="50%" alt="Disk Sanitization Steps"/>
-<br />
-<br /> 
+`ROW_NUMBER()` partitions the data by the fields that define a repeated record, making duplicate removal traceable.
 
-<img src="https://imgur.com/iqco7aA.png" height="50%" width="50%" />
-<br />
-<br />
+### Standardizing Values and Dates
 
-<img src="https://imgur.com/tMcW7rr.png" height="50%" width="50%" />
-<br />
-<br />
+![Standardizing company and category values](https://imgur.com/ekBihGl.png)
 
-<img src="https://imgur.com/da8KYp9.png" height="50%" width="50%" />
-<br />
-<br />
+![Converting text dates into a SQL date type](https://imgur.com/ye12UGr.png)
 
-<img src="https://imgur.com/SDgTfjy.png" height="50%" width="50%" />
-<br />
-<br />
-</p>
+Text cleanup and date conversion make later grouping, filtering, and time-series analysis more dependable.
 
-<!--
- ```diff
-- text in red
-+ text in green
-! text in orange
-# text in gray
-@@ text in purple (and bold)@@
-```
---!>
+### Resolving Missing Values and Finalizing the Table
+
+![Reviewing blank and null values](https://imgur.com/MycLCo2.png)
+
+![Populating supported missing industry values](https://imgur.com/iqco7aA.png)
+
+![Removing rows that cannot support analysis](https://imgur.com/tMcW7rr.png)
+
+![Dropping the temporary duplicate-tracking column](https://imgur.com/da8KYp9.png)
+
+![Reviewing the final cleaned dataset](https://imgur.com/SDgTfjy.png)
+
+Missing values are only populated when another matching record provides defensible information. Temporary cleaning fields are removed after validation.
+
+## Design Decisions
+
+- The raw table is preserved through a staging workflow.
+- Duplicate logic is based on the complete business record rather than company name alone.
+- Missing values are not replaced with guesses.
+- Cleaning and analysis are kept separate so each stage is easier to audit.
+
+## Limitations and Next Steps
+
+- This repository demonstrates data preparation rather than business analysis.
+- Findings depend on the completeness and accuracy of the source dataset.
+- A logical next step is an exploratory analysis and dashboard covering layoff trends by time, industry, company, location, and funding stage.
